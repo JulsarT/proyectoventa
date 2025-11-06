@@ -1,0 +1,438 @@
+/* ===================================
+   TU CSS ORIGINAL MEJORADO
+   =================================== */
+
+/* Variables para colores consistentes */
+:root {
+    --primary-color: #1d47ec;
+    --primary-dark: #357abd;
+    --secondary-color: #f8f9fa;
+    --text-dark: #2c3e50;
+    --shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+}
+
+/* Estilos base mejorados */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+}
+
+/* Header mejorado */
+header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 15px 0;
+    box-shadow: var(--shadow);
+}
+
+/* Content wrapper */
+#content-wrapper {
+    min-height: 100vh;
+}
+
+/* Navegación mejorada */
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+nav ul li a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Container mejorado */
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 30px;
+    background: white;
+    box-shadow: var(--shadow);
+    border-radius: 15px;
+}
+
+/* Footer mejorado pero SIN position fixed */
+footer {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: auto;
+    /* REMOVIDO: position: fixed; bottom: 0; width: 100%; */
+}
+
+/* Tablas mejoradas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+table th, table td {
+    border: none;
+    padding: 12px;
+    text-align: left;
+}
+
+table th {
+    background: var(--primary-color);
+    color: white;
+    font-weight: 600;
+}
+
+table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+table tr:hover {
+    background-color: #e3f2fd;
+    transition: background-color 0.3s ease;
+}
+
+/* Formularios mejorados */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+form label {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 5px;
+}
+
+form input, form select, form textarea {
+    padding: 12px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+form input:focus, form select:focus, form textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+    outline: none;
+}
+
+form button {
+    padding: 12px 24px;
+    background: linear-gradient(45deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+form button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+}
+
+/* Layout wrapper */
+#wrapper {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+
+#sidebar-wrapper {
+    width: 250px;
+}
+
+#page-content-wrapper {
+    flex: 1;
+}
+
+/* ===================================
+   MEJORAS ESPECÍFICAS PARA BOOTSTRAP
+   =================================== */
+
+/* Sidebar específico */
+.sidebar {
+    background: linear-gradient(180deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    box-shadow: var(--shadow);
+}
+
+.sidebar .nav-link {
+    padding: 1rem 1.5rem;
+    margin: 0.25rem 1rem;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.sidebar .nav-link:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateX(5px);
+}
+
+.sidebar-brand {
+    padding: 1.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-brand:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+/* Topbar específico */
+.topbar {
+    box-shadow: var(--shadow);
+    background: var(--primary-color) !important;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    color: white !important;
+    font-size: 1.3rem;
+}
+
+.navbar-brand:hover {
+    color: var(--primary-dark) !important;
+}
+
+/* Dropdown mejorado */
+.dropdown-menu {
+    border: none;
+    box-shadow: var(--shadow);
+    border-radius: 10px;
+}
+
+.dropdown-item:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* Footer específico para Bootstrap */
+.sticky-footer {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white;
+    padding: 1.5rem 0;
+    margin-top: auto;
+}
+
+.sticky-footer .copyright {
+    color: white;
+    font-weight: 500;
+}
+
+/* Container fluid mejorado */
+.container-fluid {
+    background: white;
+    border-radius: 15px;
+    margin: 1rem;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    min-height: calc(100vh - 200px);
+}
+
+/* ===================================
+   RESPONSIVE DESIGN
+   =================================== */
+@media (max-width: 768px) {
+    .container {
+        margin: 10px;
+        padding: 20px;
+    }
+    
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    nav ul li {
+        margin: 5px 0;
+    }
+    
+    table {
+        font-size: 14px;
+    }
+    
+    .sidebar {
+        transform: translateX(-100%);
+        position: fixed;
+        z-index: 1030;
+        height: 100vh;
+    }
+    
+    .sidebar.show {
+        transform: translateX(0);
+    }
+}
+
+/* ===================================
+   ANIMACIONES SUAVES
+   =================================== */
+.container, .container-fluid {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Efectos hover adicionales */
+.card, .table, form {
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* ===================================
+   COMPATIBILIDAD CON TU CÓDIGO ACTUAL
+   =================================== */
+
+/* Asegurar que no haya conflictos */
+* {
+    box-sizing: border-box;
+}
+
+/* Prioridad para tus elementos específicos */
+#wrapper {
+    background: transparent;
+}
+
+/* Links generales */
+a {
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    text-decoration: none;
+}
+/* ===================================
+   CSS PARA TU FOOTER sticky-footer-alt
+   =================================== */
+
+/* Footer alternativo más elegante */
+.sticky-footer-alt {
+    background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%) !important;
+    color: white !important;
+    padding: 2rem 0 !important;
+    margin-top: auto !important;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1) !important;
+    min-height: 70px !important;
+}
+
+/* Contenedor del footer */
+.sticky-footer-alt .container {
+    color: white !important;
+    background: transparent !important;
+}
+
+/* Texto de copyright */
+.sticky-footer-alt .copyright {
+    color: white !important;
+    font-weight: 500 !important;
+    background: transparent !important;
+}
+
+/* Todos los elementos dentro del footer */
+.sticky-footer-alt * {
+    color: white !important;
+    background: transparent !important;
+}
+
+/* Iconos específicos */
+.sticky-footer-alt .fas,
+.sticky-footer-alt .far,
+.sticky-footer-alt .fab {
+    color: white !important;
+}
+
+/* Span específico */
+.sticky-footer-alt span {
+    color: white !important;
+}
+
+/* Hover effects si agregas links */
+.sticky-footer-alt a {
+    color: rgba(255, 255, 255, 0.9) !important;
+    transition: color 0.3s ease !important;
+}
+
+.sticky-footer-alt a:hover {
+    color: white !important;
+    text-decoration: none !important;
+}
+
+/* VARIANTES ADICIONALES por si quieres cambiar colores */
+
+/* Opción 1: Footer que combine con tu sidebar (azul) */
+.sticky-footer-blue {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    padding: 2rem 0 !important;
+    margin-top: auto !important;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1) !important;
+}
+
+.sticky-footer-blue * {
+    color: white !important;
+    background: transparent !important;
+}
+
+/* Opción 2: Footer oscuro elegante */
+.sticky-footer-dark {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
+    color: white !important;
+    padding: 2rem 0 !important;
+    margin-top: auto !important;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2) !important;
+}
+
+.sticky-footer-dark * {
+    color: white !important;
+    background: transparent !important;
+}
+
+/* Opción 3: Footer con gradiente gaming (para combinar con tu tema Redragon) */
+.sticky-footer-gaming {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 50%, #d63031 100%) !important;
+    color: white !important;
+    padding: 2rem 0 !important;
+    margin-top: auto !important;
+    box-shadow: 0 -2px 15px rgba(214, 48, 49, 0.3) !important;
+}
+
+.sticky-footer-gaming * {
+    color: white !important;
+    background: transparent !important;
+}
