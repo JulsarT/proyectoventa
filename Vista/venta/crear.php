@@ -24,7 +24,7 @@
             <select name="id_producto[]" onchange="updatePrecio(this)">
                 <option value="">Seleccione un producto</option>
                 <?php foreach ($productos as $producto): ?>
-                    <option value="<?php echo $producto['id_producto']; ?>" data-precio="<?php echo $producto['precio']; ?>">
+                    <option value="<?php echo $producto['id_producto']; ?>" data-precio="<?php echo $producto['precio_venta']; ?>">
                         <?php echo $producto['nombre'] . ' (Stock: ' . $producto['stock'] . ')'; ?>
                     </option>
                 <?php endforeach; ?>

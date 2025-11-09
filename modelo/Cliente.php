@@ -2,15 +2,18 @@
 // modelo/Cliente.php
 require_once __DIR__ . '/../core/Database.php';
 
-class Cliente extends CoreDatabase {
-    public function getAll() {
+class Cliente extends CoreDatabase
+{
+    public function getAll()
+    {
         $query = "SELECT * FROM clientes";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll();
     }
 
-    public function getById($id) {
+    public function getById($id)
+    {
         $query = "SELECT * FROM clientes WHERE id_cliente = :id";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -18,7 +21,8 @@ class Cliente extends CoreDatabase {
         return $stmt->fetch();
     }
 
-    public function create($data) {
+    public function create($data)
+    {
         $query = "INSERT INTO clientes (nombre, apellido_paterno, apellido_materno, telefono, email, direccion) 
                   VALUES (:nombre, :apellido_paterno, :apellido_materno, :telefono, :email, :direccion)";
         $stmt = $this->db->prepare($query);
@@ -31,7 +35,8 @@ class Cliente extends CoreDatabase {
         return $stmt->execute();
     }
 
-    public function update($id, $data) {
+    public function update($id, $data)
+    {
         $query = "UPDATE clientes SET 
                   nombre = :nombre, 
                   apellido_paterno = :apellido_paterno, 
@@ -51,10 +56,34 @@ class Cliente extends CoreDatabase {
         return $stmt->execute();
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $query = "DELETE FROM clientes WHERE id_cliente = :id";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
+    }
+    public function buscarPorNombre($nombre)
+    {
+        $query = "SELECT * FROM clientes WHERE nombre LIKE :nombre";
+        $stmt = $this->db->prepare($query);
+        $like = "%$nombre%";
+        $stmt->bindParam(':nombre', $like);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    public function getClientesMasCompras($top = 5)
+    {
+        $query = "SELECT c.*, COUNT(v.id_venta) as total_compras
+              FROM clientes c
+              LEFT JOIN ventas v ON c.id_cliente = v.id_cliente
+              GROUP BY c.id_cliente
+              ORDER BY total_compras DESC
+              LIMIT :top";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':top', $top, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
 }

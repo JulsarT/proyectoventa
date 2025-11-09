@@ -13,4 +13,14 @@ class DetalleVenta extends CoreDatabase {
         $stmt->execute();
         return $stmt->fetchAll();
     }
+     public function getDetallesPorVenta($idVenta) {
+        $query = "SELECT p.nombre AS producto, dv.cantidad, dv.precio_unitario
+                  FROM detalle_venta dv
+                  INNER JOIN productos p ON p.id_producto = dv.id_producto
+                  WHERE dv.id_venta = :id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id', $idVenta, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

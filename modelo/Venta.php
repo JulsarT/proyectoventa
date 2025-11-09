@@ -2,8 +2,10 @@
 // modelo/Venta.php
 require_once __DIR__ . '/../core/Database.php';
 
-class Venta extends CoreDatabase {
-    public function getAll() {
+class Venta extends CoreDatabase
+{
+    public function getAll()
+    {
         $query = "SELECT 
                     v.*, 
                     u.nombre AS usuario_nombre, u.apellido_paterno AS usuario_apellido_paterno, u.apellido_materno AS usuario_apellido_materno,
@@ -17,7 +19,8 @@ class Venta extends CoreDatabase {
     }
 
 
-    public function getById($id) {
+    public function getById($id)
+    {
         $query = "SELECT 
                     v.*, 
                     u.nombre AS usuario_nombre, u.apellido_paterno AS usuario_apellido_paterno, u.apellido_materno AS usuario_apellido_materno,
@@ -33,7 +36,8 @@ class Venta extends CoreDatabase {
     }
 
 
-    public function getDetallesByVentaId($id_venta) {
+    public function getDetallesByVentaId($id_venta)
+    {
         $query = "SELECT dv.*, p.nombre AS producto_nombre 
                   FROM detalle_venta dv 
                   LEFT JOIN productos p ON dv.id_producto = p.id_producto 
@@ -44,7 +48,8 @@ class Venta extends CoreDatabase {
         return $stmt->fetchAll();
     }
 
-    public function create($data, $detalles) {
+    public function create($data, $detalles)
+    {
         try {
             $this->db->beginTransaction();
 
@@ -86,7 +91,8 @@ class Venta extends CoreDatabase {
         }
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         try {
             $this->db->beginTransaction();
 
@@ -120,23 +126,64 @@ class Venta extends CoreDatabase {
         }
     }
 
-    public function getUsuarios() {
+    public function getUsuarios()
+    {
         $query = "SELECT id_usuario, nombre FROM usuarios WHERE estado = 'activo'";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll();
     }
 
-    public function getClientes() {
+    public function getClientes()
+    {
         $query = "SELECT id_cliente, nombre FROM clientes";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll();
     }
 
-    public function getProductos() {
+    /*public function getProductos()
+    {
         $query = "SELECT id_producto, nombre, precio, stock FROM productos WHERE stock > 0";
         $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }*/
+    //con precio de venta
+    public function getProductos()
+    {
+        $query = "SELECT id_producto, nombre, precio, stock, 
+              ROUND(precio * 1.30, 2) AS precio_venta
+              FROM productos WHERE stock > 0";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+
+    public function getAllVentasConUsuarioCliente()
+    {
+        $query = "SELECT v.*, u.nombre as usuario_nombre, u.apellido_paterno as usuario_apellido_paterno,
+              c.nombre as cliente_nombre, c.apellido_paterno as cliente_apellido_paterno
+              FROM ventas v
+              LEFT JOIN usuarios u ON v.id_usuario = u.id_usuario
+              LEFT JOIN clientes c ON v.id_cliente = c.id_cliente
+              ORDER BY v.fecha DESC";
+        return $this->db->query($query)->fetchAll();
+    }
+
+    public function getVentasDelDia()
+    {
+        $hoy = date('Y-m-d');
+        $query = "SELECT v.*, u.nombre as usuario_nombre, u.apellido_paterno as usuario_apellido_paterno,
+              c.nombre as cliente_nombre, c.apellido_paterno as cliente_apellido_paterno
+              FROM ventas v
+              LEFT JOIN usuarios u ON v.id_usuario = u.id_usuario
+              LEFT JOIN clientes c ON v.id_cliente = c.id_cliente
+              WHERE DATE(v.fecha) = :hoy
+              ORDER BY v.fecha DESC";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':hoy', $hoy);
         $stmt->execute();
         return $stmt->fetchAll();
     }

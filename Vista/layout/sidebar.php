@@ -59,6 +59,20 @@
                 <span>Ventas</span>
             </a>
         </li>
+        <!-- Nav Item - Ventas -->
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo BASE_URL; ?>catalogo">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Catalogo</span>
+            </a>
+        </li>
+        <!-- Nav Item - Ventas -->
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo BASE_URL; ?>reporte">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Reportes</span>
+            </a>
+        </li>
 
         <!-- Nav Item - Compras -->
         <li class="nav-item">
