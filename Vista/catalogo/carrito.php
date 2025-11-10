@@ -1,25 +1,72 @@
 <div class="container mt-4">
     <h2 class="text-center mb-4">Carrito de Compras</h2>
 
-    <!-- Seleccionar Cliente con Select2 -->
-    <div class="card mb-3 p-3">
-        <h5>Seleccionar Cliente</h5>
+    <!-- Seleccionar Cliente - DOS OPCIONES -->
+    <div class="card mb-3 p-4">
+        <h5 class="mb-3"><i class="fas fa-user"></i> Seleccionar Cliente</h5>
+        
         <form action="<?php echo BASE_URL . 'catalogo/procesarVenta'; ?>" method="post" id="formVenta">
-            <div class="mb-3">
-                <select name="id_cliente" id="selectCliente" class="form-select" required>
-                    <option value="">Buscar y seleccionar cliente...</option>
-                    <?php if (!empty($clientes)): ?>
-                        <?php foreach ($clientes as $c): ?>
-                            <option value="<?php echo $c['id_cliente']; ?>">
-                                <?php echo htmlspecialchars($c['nombre'] . ' ' . $c['apellido_paterno']); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </select>
+            <div class="row">
+                <!-- OPCIÓN 1: Select con todos los clientes -->
+                <div class="col-md-6">
+                    <div class="card border-primary h-100">
+                        <div class="card-header bg-primary text-white">
+                            <strong>Opción 1: Seleccionar de la lista</strong>
+                        </div>
+                        <div class="card-body">
+                            <label for="selectClienteLista" class="form-label">Lista de Clientes</label>
+                            <select id="selectClienteLista" class="form-select" size="8">
+                                <option value="">-- Seleccione un cliente --</option>
+                                <?php if (!empty($clientes)): ?>
+                                    <?php foreach ($clientes as $c): ?>
+                                        <option value="<?php echo $c['id_cliente']; ?>" 
+                                                data-nombre="<?php echo htmlspecialchars($c['nombre'] . ' ' . $c['apellido_paterno']); ?>">
+                                            <?php echo htmlspecialchars($c['nombre'] . ' ' . $c['apellido_paterno']); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OPCIÓN 2: Buscar cliente -->
+                <div class="col-md-6">
+                    <div class="card border-success h-100">
+                        <div class="card-header bg-success text-white">
+                            <strong>Opción 2: Buscar cliente</strong>
+                        </div>
+                        <div class="card-body">
+                            <label for="buscarInput" class="form-label">Buscar por nombre</label>
+                            <div class="input-group mb-3">
+                                <input type="text" id="buscarInput" class="form-control" 
+                                       placeholder="Escribe el nombre del cliente...">
+                                <button type="button" class="btn btn-success" onclick="buscarCliente()">
+                                    <i class="fas fa-search"></i> Buscar
+                                </button>
+                            </div>
+
+                            <label for="clienteEncontrado" class="form-label">Cliente encontrado</label>
+                            <input type="text" id="clienteEncontrado" class="form-control" 
+                                   placeholder="El resultado aparecerá aquí..." readonly>
+                            <input type="hidden" id="clienteEncontradoId" value="">
+                        </div>
+                    </div>
+                </div>
             </div>
-            <a href="<?php echo BASE_URL . 'cliente/crear'; ?>" class="btn btn-success">
-                <i class="fas fa-plus"></i> Nuevo Cliente
-            </a>
+
+            <!-- Cliente seleccionado final -->
+            <div class="alert alert-info mt-3" id="alertClienteSeleccionado" style="display: none;">
+                <strong><i class="fas fa-user-check"></i> Cliente seleccionado:</strong>
+                <span id="nombreClienteSeleccionado"></span>
+                <input type="hidden" name="id_cliente" id="id_cliente_final" value="">
+            </div>
+
+            <div class="mt-3">
+                <a href="<?php echo BASE_URL . 'cliente/crear'; ?>" class="btn btn-warning">
+                    <i class="fas fa-plus"></i> Registrar Nuevo Cliente
+                </a>
+            </div>
     </div>
 
     <!-- Tabla del carrito -->
@@ -103,57 +150,7 @@
         </form>
 </div>
 
-<!-- CSS para Select2 -->
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
-
-<!-- JavaScript -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-<script>
-$(document).ready(function() {
-    // Inicializar Select2
-    $('#selectCliente').select2({
-        theme: 'bootstrap-5',
-        placeholder: 'Buscar cliente por nombre o CI...',
-        allowClear: true,
-        width: '100%',
-        language: {
-            noResults: function() {
-                return "No se encontraron clientes";
-            },
-            searching: function() {
-                return "Buscando...";
-            }
-        }
-    });
-
-    // Validación antes de enviar
-    $('#formVenta').on('submit', function(e) {
-        const clienteSeleccionado = $('#selectCliente').val();
-        
-        if (!clienteSeleccionado) {
-            e.preventDefault();
-            alert('Por favor, seleccione un cliente antes de procesar la venta.');
-            return false;
-        }
-        
-        return confirm('¿Confirmar la venta por Bs. <?php echo number_format($total, 2); ?>?');
-    });
-});
-</script>
-
 <style>
-.select2-container--bootstrap-5 .select2-selection {
-    min-height: 45px;
-    padding: 5px;
-}
-
-.select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered {
-    line-height: 35px;
-}
-
 .card {
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -167,4 +164,109 @@ $(document).ready(function() {
     font-size: 0.9rem;
     padding: 0.5rem 0.8rem;
 }
+
+select[size] {
+    height: auto !important;
+}
+
+#selectClienteLista option:hover {
+    background-color: #e3f2fd;
+    cursor: pointer;
+}
+
+.input-group .btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
 </style>
+
+<script>
+// Seleccionar de la lista
+document.getElementById('selectClienteLista').addEventListener('change', function() {
+    const selectedOption = this.options[this.selectedIndex];
+    
+    if (this.value) {
+        const clienteId = this.value;
+        const clienteNombre = selectedOption.dataset.nombre;
+        
+        // Limpiar búsqueda
+        document.getElementById('buscarInput').value = '';
+        document.getElementById('clienteEncontrado').value = '';
+        document.getElementById('clienteEncontradoId').value = '';
+        
+        // Mostrar cliente seleccionado
+        mostrarClienteSeleccionado(clienteId, clienteNombre);
+    }
+});
+
+// Buscar cliente
+function buscarCliente() {
+    const busqueda = document.getElementById('buscarInput').value.trim().toLowerCase();
+    
+    if (!busqueda) {
+        alert('Por favor ingrese un nombre para buscar');
+        return;
+    }
+    
+    const selectLista = document.getElementById('selectClienteLista');
+    let encontrado = false;
+    
+    // Buscar en todas las opciones
+    for (let i = 0; i < selectLista.options.length; i++) {
+        const option = selectLista.options[i];
+        const texto = option.text.toLowerCase();
+        
+        if (texto.includes(busqueda)) {
+            // Cliente encontrado
+            const clienteId = option.value;
+            const clienteNombre = option.dataset.nombre;
+            
+            document.getElementById('clienteEncontrado').value = clienteNombre;
+            document.getElementById('clienteEncontradoId').value = clienteId;
+            
+            // Limpiar selección de lista
+            selectLista.value = '';
+            
+            // Mostrar cliente seleccionado
+            mostrarClienteSeleccionado(clienteId, clienteNombre);
+            
+            encontrado = true;
+            break;
+        }
+    }
+    
+    if (!encontrado) {
+        alert('No se encontró ningún cliente con ese nombre');
+        document.getElementById('clienteEncontrado').value = '';
+        document.getElementById('clienteEncontradoId').value = '';
+    }
+}
+
+// Permitir buscar con Enter
+document.getElementById('buscarInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        buscarCliente();
+    }
+});
+
+// Mostrar cliente seleccionado
+function mostrarClienteSeleccionado(id, nombre) {
+    document.getElementById('id_cliente_final').value = id;
+    document.getElementById('nombreClienteSeleccionado').textContent = nombre;
+    document.getElementById('alertClienteSeleccionado').style.display = 'block';
+}
+
+// Validación del formulario
+document.getElementById('formVenta').addEventListener('submit', function(e) {
+    const clienteSeleccionado = document.getElementById('id_cliente_final').value;
+    
+    if (!clienteSeleccionado) {
+        e.preventDefault();
+        alert('Por favor, seleccione un cliente antes de procesar la venta.');
+        return false;
+    }
+    
+    return true;
+});
+</script>
